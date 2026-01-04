@@ -2,6 +2,7 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { axiosBaseQuery } from "../../../config/axiosBaseQuery";
 import { setCredentials } from "./Auth";
 import type { Iuser } from "../../../interface";
+import axiosInstance from "../../../config/axios.config";
 
 export const LoginApi = createApi({
   reducerPath: "loginsApi",
@@ -14,29 +15,27 @@ export const LoginApi = createApi({
         method: "POST",
         data,
       }),
-      async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled;
+    async onQueryStarted(_, { dispatch, queryFulfilled }) {
+  try {
+    const { data } = await queryFulfilled;
 
-          const userRes = await fetch(
-            `${import.meta.env.VITE_SERVER_URL}/users/me?populate=role`,
-            {
-              headers: {
-                Authorization: `Bearer ${data.jwt}`,
-              },
-            }
-          ).then((res) => res.json());
+    // استخدام axiosInstance بدلاً من fetch
+    const userRes = await axiosInstance
+      .get("/users/me?populate=role", {
+        headers: { Authorization: `Bearer ${data.jwt}` },
+      })
+      .then((res) => res.data);
 
-          dispatch(
-            setCredentials({
-              jwt: data.jwt,
-              user: userRes,
-            })
-          );
-        } catch (error) {
-          console.error("Login failed", error);
-        }
-      },
+    dispatch(
+      setCredentials({
+        jwt: data.jwt,
+        user: userRes,
+      })
+    );
+  } catch (error) {
+    console.error("Login failed", error);
+  }
+}
     }),
 
     getUsers: builder.query<Iuser[], void>({
