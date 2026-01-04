@@ -19,7 +19,7 @@ export const LoginApi = createApi({
           const { data } = await queryFulfilled;
 
           const userRes = await fetch(
-            "http://localhost:1337/api/users/me?populate=role",
+            `${import.meta.env.VITE_SERVER_URL}/users/me?populate=role`,
             {
               headers: {
                 Authorization: `Bearer ${data.jwt}`,
