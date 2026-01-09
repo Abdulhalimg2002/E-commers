@@ -19,7 +19,7 @@ export const LoginApi = createApi({
           const { data } = await queryFulfilled;
 
           const userRes = await fetch(
-            "https://strapie-w875.onrender.com/api/users/me?populate=role",
+            `${import.meta.env.VITE_SERVER_URL}/users/me?populate=role`,
             {
               headers: {
                 Authorization: `Bearer ${data.jwt}`,
