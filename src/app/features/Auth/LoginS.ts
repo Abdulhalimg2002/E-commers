@@ -2,6 +2,7 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { axiosBaseQuery } from "../../../config/axiosBaseQuery";
 import { setCredentials } from "./Auth";
 import type { Iuser } from "../../../interface";
+import axiosInstance from "../../../config/axios.config";
 
 export const LoginApi = createApi({
   reducerPath: "loginsApi",
@@ -14,23 +15,22 @@ export const LoginApi = createApi({
         method: "POST",
         data,
       }),
+
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
 
-          const userRes = await fetch(
-            `${import.meta.env.VITE_SERVER_URL}/users/me?populate=role`,
-            {
-              headers: {
-                Authorization: `Bearer ${data.jwt}`,
-              },
-            }
-          ).then((res) => res.json());
+          // ✅ استخدم axiosInstance بدلاً من fetch
+          const me = await axiosInstance.get("/users/me?populate=role", {
+            headers: {
+              Authorization: `Bearer ${data.jwt}`,
+            },
+          });
 
           dispatch(
             setCredentials({
               jwt: data.jwt,
-              user: userRes,
+              user: me.data,
             })
           );
         } catch (error) {
@@ -55,23 +55,26 @@ export const LoginApi = createApi({
       providesTags: ["Me"],
     }),
 
-    // 🔥 UPDATE PROFILE
-    updateMe: builder.mutation<Iuser, { id: number; data: { username: string; email: string } }>({
-  query: ({ id, data }) => ({
-    url: `/users/${id}`,
-    method: "PUT",
-    data: {
-      username: data.username,
-      email: data.email,
-    },
-  }),
-  invalidatesTags: ["Me", "Users"],
-}),
-
+    updateMe: builder.mutation<
+      Iuser,
+      { id: number; data: { username: string; email: string } }
+    >({
+      query: ({ id, data }) => ({
+        url: `/users/${id}`,
+        method: "PUT",
+        data: {
+          username: data.username,
+          email: data.email,
+        },
+      }),
+      invalidatesTags: ["Me", "Users"],
+    }),
   }),
 });
 
-
-
-
-export const { useCreateAuthUMutation,useGetUsersQuery,useGetMeQuery, useUpdateMeMutation } = LoginApi;
+export const {
+  useCreateAuthUMutation,
+  useGetUsersQuery,
+  useGetMeQuery,
+  useUpdateMeMutation,
+} = LoginApi;
