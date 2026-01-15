@@ -15,21 +15,29 @@ export const LoginApi = createApi({
         method: "POST",
         data,
       }),
-     async onQueryStarted(_, { dispatch, queryFulfilled }) {
-  try {
-    const { data } = await queryFulfilled;
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
 
-    dispatch(
-      setCredentials({
-        jwt: data.jwt,
-        user: null, // سيتم جلبه من getMe
-      })
-    );
-  } catch (error) {
-    console.error("Login failed", error);
-  }
-}
+          const userRes = await fetch(
+            `${import.meta.env.VITE_SERVER_URL}/users/me?populate=role`,
+            {
+              headers: {
+                Authorization: `Bearer ${data.jwt}`,
+              },
+            }
+          ).then((res) => res.json());
 
+          dispatch(
+            setCredentials({
+              jwt: data.jwt,
+              user: userRes,
+            })
+          );
+        } catch (error) {
+          console.error("Login failed", error);
+        }
+      },
     }),
 
     getUsers: builder.query<Iuser[], void>({
