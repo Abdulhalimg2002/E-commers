@@ -93,7 +93,7 @@ const ProudactP = () => {
       : "whiteAlpha.100",
     transform: "translateY(-2px)",
   }}
-  transition="0.20s ease"
+  transition="0.25s ease"
 >
   {isAll ? (
     <LayoutGrid size={18} />
@@ -110,6 +110,8 @@ const ProudactP = () => {
     src={cat.iconC?.url}
     boxSize={{ base: "30px", md: "25px" }}
     objectFit="contain"
+    width={"15"}
+  height={"15"}
   />
 </Box>
   )}
