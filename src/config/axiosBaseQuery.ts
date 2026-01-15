@@ -1,12 +1,10 @@
 import type { BaseQueryFn } from "@reduxjs/toolkit/query";
 import axiosInstance from "./axios.config";
-
 export const axiosBaseQuery =
   ({ baseUrl = "" } = {}): BaseQueryFn =>
   async ({ url, method, data, params }, { getState }) => {
     try {
-      // ✅ الصحيح: التوكن موجود في auth.jwt
-      const token = (getState() as any).auth?.jwt;
+      const token = (getState() as any).auth?.user?.jwt;
 
       const result = await axiosInstance({
         url: baseUrl + url,
@@ -30,3 +28,4 @@ export const axiosBaseQuery =
       };
     }
   };
+
