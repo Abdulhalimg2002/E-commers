@@ -91,9 +91,9 @@ const ProudactP = () => {
     bg: active
       ? "linear-gradient(90deg, #1d4ed8, #2563eb)"
       : "whiteAlpha.100",
-    transform: "translateY(-2px)",
+    transform: "translateY(-1px)",
   }}
-  transition="0.25s ease"
+  transition="0.20s ease"
 >
   {isAll ? (
     <LayoutGrid size={18} />
@@ -108,7 +108,7 @@ const ProudactP = () => {
 >
   <Image
     src={cat.iconC?.url}
-    boxSize={{ base: "22px", md: "20px" }}
+    boxSize={{ base: "30px", md: "25px" }}
     objectFit="contain"
   />
 </Box>
