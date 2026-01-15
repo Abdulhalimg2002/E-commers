@@ -98,16 +98,20 @@ const ProudactP = () => {
   {isAll ? (
     <LayoutGrid size={18} />
   ) : (
-    <Box
-      boxSize="24px"       // ← حجم ثابت للأيقونة
-      bg="white"
-      borderRadius="full"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-    >
-      <Image src={cat.iconC?.url} boxSize="16px" />
-    </Box>
+   <Box
+  boxSize={{ base: "36px", md: "32px" }}
+  bg="white"
+  borderRadius="full"
+  display="flex"
+  alignItems="center"
+  justifyContent="center"
+>
+  <Image
+    src={cat.iconC?.url}
+    boxSize={{ base: "22px", md: "20px" }}
+    objectFit="contain"
+  />
+</Box>
   )}
 
   <Text fontSize="sm" fontWeight="600" lineClamp={1} >
