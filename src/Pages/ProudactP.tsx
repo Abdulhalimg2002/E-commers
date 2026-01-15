@@ -66,50 +66,55 @@ const ProudactP = () => {
       const active = selectedCategory === key;
 
       return (
-        <Box
-          key={key}
-          onClick={() => setSelectedCategory(key)}
-          cursor="pointer"
-          px={5}
-          py={3}
-          minW="fit-content"
-          borderRadius="full"
-          display="flex"
-          alignItems="center"
-          gap={3}
-          bg={
-            active
-              ? "linear-gradient(90deg, #2563eb, #3b82f6)"
-              : "whiteAlpha.50"
-          }
-          border="1px solid"
-          borderColor={active ? "blue.400" : "whiteAlpha.200"}
-          color={active ? "white" : "gray.300"}
-          boxShadow={active ? "0 10px 20px rgba(59,130,246,0.4)" : "none"}
-          _hover={{
-            bg: active
-              ? "linear-gradient(90deg, #1d4ed8, #2563eb)"
-              : "whiteAlpha.100",
-            transform: "translateY(-2px)",
-          }}
-          transition="0.25s ease"
-        >
-          {isAll ? (
-            <LayoutGrid size={18} />
-          ) : (
-            <Image
-              src={cat.iconC?.url}
-              boxSize="22px"
-              borderRadius="full"
-              bg="white"
-              p="4px"
-            />
-          )}
+      <Box
+  key={key}
+  onClick={() => setSelectedCategory(key)}
+  cursor="pointer"
+  w="160px"        // ← عرض ثابت
+  h="52px"         // ← ارتفاع ثابت
+  px={4}
+  borderRadius="full"
+  display="flex"
+  alignItems="center"
+  justifyContent="center"   // ← توسيط أفقي
+  gap={3}
+  bg={
+    active
+      ? "linear-gradient(90deg, #2563eb, #3b82f6)"
+      : "whiteAlpha.50"
+  }
+  border="1px solid"
+  borderColor={active ? "blue.400" : "whiteAlpha.200"}
+  color={active ? "white" : "gray.300"}
+  boxShadow={active ? "0 10px 20px rgba(59,130,246,0.4)" : "none"}
+  _hover={{
+    bg: active
+      ? "linear-gradient(90deg, #1d4ed8, #2563eb)"
+      : "whiteAlpha.100",
+    transform: "translateY(-2px)",
+  }}
+  transition="0.25s ease"
+>
+  {isAll ? (
+    <LayoutGrid size={18} />
+  ) : (
+    <Box
+      boxSize="24px"       // ← حجم ثابت للأيقونة
+      bg="white"
+      borderRadius="full"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Image src={cat.iconC?.url} boxSize="16px" />
+    </Box>
+  )}
 
-          <Text fontSize="sm" fontWeight="600" whiteSpace="nowrap">
-            {cat.title}
-          </Text>
-        </Box>
+  <Text fontSize="sm" fontWeight="600" lineClamp={1} >
+    {cat.title}
+  </Text>
+</Box>
+
       );
     })}
   </HStack>
