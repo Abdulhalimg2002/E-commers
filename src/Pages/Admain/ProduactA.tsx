@@ -162,42 +162,45 @@ const editThumbnail = watchEdit("thumbnail");
 
 
   const onSubmitEdit: SubmitHandler<prodactsEdit> = async (data) => {
-    try {
-      setLoading(true);
-      let imageId = selectedProduct?.thumbnail?.id;
+  try {
+    setLoading(true);
 
-      if (data.thumbnail?.length) {
-        const fd = new FormData();
-        fd.append("files", data.thumbnail[0]);
-        const img = await uploadImage(fd).unwrap();
-        imageId = img[0].id;
-      }
+    let imageId = selectedProduct?.thumbnail?.id;
 
-      await updatePr({
-  id: selectedProduct!.documentId,   // ✅ هنا التغيير المهم
-  data: {
-    title: data.title,
-    description: data.description,
-    price: data.price,
-    stock: data.stock,
-    category: { id: data.category.id },
-    thumbnail: imageId
-      ? { id: imageId }
-      : selectedProduct?.thumbnail
-      ? { id: selectedProduct.thumbnail.id }
-      : undefined,
-  },
-});
-
-
-      reset();
-      setIsEditOpen(false);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
+    if (data.thumbnail?.length) {
+      const fd = new FormData();
+      fd.append("files", data.thumbnail[0]);
+      const img = await uploadImage(fd).unwrap();
+      imageId = img[0].id;
     }
-  };
+
+    const categoryId =
+      data.category?.id
+        ? data.category.id                     // المستخدم اختار تصنيف جديد
+        : selectedProduct?.category?.id;       // استخدم القديم
+
+    await updatePr({
+      id: selectedProduct!.documentId,
+      data: {
+        title: data.title,
+        description: data.description,
+        price: data.price,
+        stock: data.stock,
+        category: categoryId ? { id: categoryId } : undefined,
+        thumbnail: imageId
+          ? { id: imageId }
+          : undefined,
+      },
+    });
+
+    setIsEditOpen(false);
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   /* ================= DELETE ================= */
   const confirmDelete = async () => {
