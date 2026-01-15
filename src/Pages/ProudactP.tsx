@@ -91,7 +91,7 @@ const ProudactP = () => {
     bg: active
       ? "linear-gradient(90deg, #1d4ed8, #2563eb)"
       : "whiteAlpha.100",
-    transform: "translateY(-1px)",
+    transform: "translateY(-2px)",
   }}
   transition="0.20s ease"
 >
@@ -99,7 +99,7 @@ const ProudactP = () => {
     <LayoutGrid size={18} />
   ) : (
    <Box
-  boxSize={{ base: "36px", md: "32px" }}
+  boxSize={{ base: "40px", md: "35px" }}
   bg="white"
   borderRadius="full"
   display="flex"
