@@ -32,20 +32,21 @@ export const CategoryS = createApi({
 
     // 🔥 UPDATE category
     updateC: builder.mutation<any, { id: string; data: any }>({
-      query: ({ id, data }) => ({
-        url: `/categories/${id}`,
-        method: "PUT",
-         data: {
-          data: {
-            title: data.title,
-            
-           iconC: data.iconC,
-            
-          },
-        },
-      }),
-      invalidatesTags: ["Category"],
-    }),
+  query: ({ id, data }) => ({
+    url: `/categories/${id}`,
+    method: "PUT",
+    data: {
+      data: {
+        title: data.title,
+        iconC: data.iconC,
+
+        // 🔥 أهم سطر
+        proudacts: data.proudacts,
+      },
+    },
+  }),
+  invalidatesTags: ["Category"],
+}),
 
     // 🔥 DELETE category
     deleteC: builder.mutation<any, string>({

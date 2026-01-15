@@ -73,15 +73,23 @@ export interface InputP {
     fileTypes?: string[]; // للصور
   };
 }
-export interface ICategory{
-  id:number;
-  title:string;
-  iconC:{
-    id:number;
-    url:string
-  },
+export interface ICategory {
+  id: number;
   documentId: string;
+  title: string;
+
+  iconC?: {
+    id: number;
+    url: string;
+  };
+
+  // 🔥 هذا هو المفتاح
+  proudacts?: {
+    id: number;
+    documentId: string;
+  }[];
 }
+
 export interface InputC {
   name: "title" | "iconC" ;
   placeholder?: string;

@@ -136,39 +136,44 @@ const editThumbnail = watchEdit("iconC");
     };
     
     
-      const onSubmitEdit: SubmitHandler<categoryEdit> = async (data) => {
-        try {
-          setLoading(true);
-          let imageId = selectedicon?.iconC?.id;
-    
-          if (data.iconC?.length) {
-            const fd = new FormData();
-            fd.append("files", data.iconC[0]);
-            const img = await uploadImage(fd).unwrap();
-            imageId = img[0].id;
-          }
-    
-          await updateC({
-      id: selectedicon!.documentId,   // ✅ هنا التغيير المهم
+     const onSubmitEdit: SubmitHandler<categoryEdit> = async (data) => {
+  try {
+    setLoading(true);
+
+    let imageId = selectedicon?.iconC?.id;
+
+    if (data.iconC?.length) {
+      const fd = new FormData();
+      fd.append("files", data.iconC[0]);
+      const img = await uploadImage(fd).unwrap();
+      imageId = img[0].id;
+    }
+
+    // 🟢 اجلب كل المنتجات المرتبطة بهذا التصنيف
+    const proudactsIds = selectedicon?.proudacts?.map((p) => p.id);
+
+    await updateC({
+      id: selectedicon!.documentId,
       data: {
         title: data.title,
-        iconC: imageId
-          ? { id: imageId }
-          : selectedicon?.iconC
-          ? { id: selectedicon.iconC.id }
-          : undefined,
+
+        iconC: imageId ? { id: imageId } : undefined,
+
+        // 🔥 هذا هو الحل
+        proudacts: proudactsIds?.length
+          ? proudactsIds.map((id) => ({ id }))
+          : [],
       },
     });
-    
-    
-          reset();
-          setIsEditOpen(false);
-        } catch (err) {
-          console.error(err);
-        } finally {
-          setLoading(false);
-        }
-      };
+
+    setIsEditOpen(false);
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
+};
+
     
       /* ================= DELETE ================= */
       const confirmDelete = async () => {
