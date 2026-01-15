@@ -97,13 +97,14 @@ const ProudactP = () => {
           {isAll ? (
             <LayoutGrid size={18} />
           ) : (
-            <Image
-              src={cat.iconC?.url}
-              boxSize="22px"
-              borderRadius="full"
-              bg="white"
-              p="2px"
-            />
+           <Image
+  src={cat.iconC?.url}
+  boxSize="40px"   // ← جرّب 32px / 40px / 48px
+  borderRadius="full"
+  bg="white"
+  p="4px"
+/>
+
           )}
 
           <Text fontSize="sm" fontWeight="600" whiteSpace="nowrap">

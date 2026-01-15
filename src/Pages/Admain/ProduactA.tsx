@@ -506,8 +506,8 @@ const editThumbnail = watchEdit("thumbnail");
         <Text mb={1} color="whiteAlpha.700">Current Image:</Text>
         <Image
           src={selectedProduct.thumbnail.url}
-          w={{ base: "1000px", md: "90px" }}
-          h={{ base: "100px", md: "90px" }}
+          w={{ base: "80px", md: "90px" }}
+          h={{ base: "70px", md: "90px" }}
           objectFit="cover"
           borderRadius="10px"
         />
