@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import { setCredentials, logout } from "../app/features/Auth/Auth";
-import axios from "axios";
+import axiosInstance from "../config/axios.config";
+
 
 export const useAuthInit = () => {
   const dispatch = useDispatch();
@@ -13,19 +13,16 @@ export const useAuthInit = () => {
 
     const fetchUser = async () => {
       try {
-        const res = await axios.get(
-          "http://localhost:1337/api/users/me?populate=role",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const res = await axiosInstance.get("/users/me?populate=role", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         dispatch(
           setCredentials({
             jwt: token,
-            user: res.data, // res.data is the user object from Strapi /api/users/me
+            user: res.data,
           })
         );
       } catch (error) {

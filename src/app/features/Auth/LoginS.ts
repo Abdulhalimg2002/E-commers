@@ -1,6 +1,7 @@
 
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { axiosBaseQuery } from "../../../config/axiosBaseQuery";
+import axiosInstance from "../../../config/axios.config";
 import { setCredentials } from "./Auth";
 import type { Iuser } from "../../../interface";
 
@@ -19,14 +20,11 @@ export const LoginApi = createApi({
         try {
           const { data } = await queryFulfilled;
 
-          const userRes = await fetch(
-            `${import.meta.env.VITE_SERVER_URL}/users/me?populate=role`,
-            {
-              headers: {
-                Authorization: `Bearer ${data.jwt}`,
-              },
-            }
-          ).then((res) => res.json());
+          const userRes = await axiosInstance.get('/users/me?populate=role', {
+            headers: {
+              Authorization: `Bearer ${data.jwt}`,
+            },
+          }).then((res) => res.data);
 
           dispatch(
             setCredentials({
