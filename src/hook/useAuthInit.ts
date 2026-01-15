@@ -14,7 +14,7 @@ export const useAuthInit = () => {
     const fetchUser = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:1337/api/users/me?populate=role",
+           `${import.meta.env.VITE_SERVER_URL}/users/me?populate=role`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
